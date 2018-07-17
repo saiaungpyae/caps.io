@@ -1,9 +1,9 @@
 # caps.io
 Real time video conferencing
 
-##Installation
+## Installation
 
-###npm
+### npm
 
 ```shell
 git clone https://github.com/saiaungpyae/caps.io.git
