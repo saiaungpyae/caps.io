@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Load More</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <style>
+        footer {
+            background-color: whitesmoke !important;
+            color: black !important;
+        }
+        footer a {
+            color: black !important;
+        }
+    </style>
+</head>
+<body>
+<a id="nav-toggle" style="display: none"></a>
+<div class="navbar-fixed">
+    <nav id="load-more-nav">
+        <div class="nav-wrapper room-effect">
+            <a href="/" class="brand-logo">caps.io</a>
+            <ul class="right hide-on-med-and-down">
+                <li><i class="mdi mdi-refresh grey-text text-darken-3" id="refresh-btn"></i></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div id="nav-path">
+    <div>[public]</div>
+    <div>- live rooms list</div>
+</div>
+<i class="mdi mdi-lock-open" id="load-more-lock"></i>
+
+<div id="load-more-section" class="section">
+    <div class="row">
+        <div class="container-filter">
+
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container-filter">
+        <span id="develop-by">proudly develop by team 3</span>
+        <span id="footer-brand" class="room-effect"><a href="">caps.io</a></span>
+    </div>
+</footer>
+</body>
+<!--javascript-->
+<script type="text/javascript" src="/javascripts/jquery-2.1.1-min.js"></script>
+<script type="text/javascript" src="/javascripts/materialize.min.js"></script>
+<script type="text/javascript" src="/javascripts/main.js"></script>
+<script src="/javascripts/rmc3.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+    var connection = new RTCMultiConnection();
+
+    connection.socketURL = '/';
+
+    function get_public_room_list() {
+
+        var publicRoomsDiv = document.querySelector('.container-filter');
+
+        publicRoomsDiv.innerHTML = '';
+        connection.getPublicModerators(function(array) {
+            var count = 0;
+            var btn_array = [];
+            var username_array = [];
+            var mod_user_array = [];
+            array.forEach(function(moderator) {
+
+                var start_btn = document.createElement('a');
+                start_btn.className = 'waves-effect waves-light blue-grey btn';
+                start_btn.innerHTML = 'Start';
+                var mod_user_id = moderator.userid.replace(/ /g,"_");
+                start_btn.id = 'btn_id_' + mod_user_id;
+
+                mod_user_array = mod_user_array.concat([
+                    mod_user_id
+                ]);
+
+                btn_array = btn_array.concat([
+                        start_btn.id
+                ]);
+
+                var input_username = "public_username_" + moderator.userid;
+                username_array = username_array.concat([
+                    input_username
+                ]);
+
+                publicRoomsDiv.innerHTML += "<div class='col l4 m6 s12'> " +
+                        "<div class='lm-card card' style='overflow: hidden;'> " +
+                        "<div class='lm-card-header waves-effect waves-block waves-light' style='background: rgba(96, 125, 139, 1);'> " +
+                        "<img class='randCam' alt=''> " +
+                        "</div> " +
+                        "<div class='lm-room-title text-truncate'>" +moderator.userid + "</div> " +
+                        "<div class='lm-card-footer'> " +
+                        "<span class='activator text-truncate'>#by " + moderator.extra.username+ "</span> " +
+                        "<span class='activator'><i class='mdi mdi-link-variant right'></i></span> " +
+                        "</div> " +
+                        "<div class='card-reveal'> " +
+                        "<span class='card-title text-truncate'>" + moderator.userid + "<i class='mdi mdi-close right'></i></span> " +
+                        "<div class='input-field'> " +
+                        "<input id='"+ input_username +"' type='text' class='validate'> " +
+                        "<label for='public_username'>[username]</label> " +
+                        "</div> " +
+                        "<div class='lm-room-radio'> " +
+                        "<span> " +
+                        "<input name='" + mod_user_id + "' class='with-gap' type='radio' id='spectator_" + mod_user_id + "' value='broad' checked=''> " +
+                        "<label for='spectator_" + mod_user_id + "'>spectator</label> " +
+                        "</span> " +
+                        "<span id='check_lock_" + btn_array + "'> " +
+                        "<input name='" + mod_user_id + "' class='with-gap' type='radio' id='speaker_" + mod_user_id + "' value='speaker'> " +
+                        "<label for='speaker_" + mod_user_id + "'>speaker</label> " +
+                        "</span> " +
+                        "</div> " +
+                        start_btn.outerHTML +
+                        "</div> </div> " +
+                        "</div>";
+
+                var check = "check_lock_" + btn_array;
+
+                if(moderator.extra.lock)
+                    document.getElementById(check).style.visibility = "hidden";
+                else
+                    document.getElementById(check).style.visibility = "visible";
+
+                $('.randCam').each(function () {
+                    $(this).attr("src", randomImg());
+                });
+
+                if(count==array.length-1){
+                    var i = 0;
+                    array.forEach(function(moderator) {
+                        var username = username_array[i];
+                        var modname = mod_user_array[i];
+                        document.getElementById(btn_array[i]).onclick = function () {
+                            var public_username = document.getElementById(username).value.replace(/\s\s+/g, ' ').trim();;
+                            var type = $("input[name="+modname+"]:checked").val();
+                            if(public_username.length > 1) {
+                                window.location = '/getroomdata/' + moderator.userid + '/' + public_username + '/' + type;
+                            }
+                            else{
+                                alert('Invalid username!');
+                            }
+                        }
+                        i++;
+                    });
+                }
+
+                count++;
+            });
+
+        });
+    }
+    document.getElementById('refresh-btn').onclick = function () {
+        get_public_room_list();
+    }
+    window.onload = get_public_room_list();
+</script>
+</html>

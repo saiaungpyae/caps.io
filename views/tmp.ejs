@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>caps.io</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+<!--navigation-->
+<header class="nav-filter-down">
+    <div id="brand-logo" class="room-effect"><a href="#home-section" class="white-text">caps.io</a></div>
+    <div id="nav-content">
+        <a href="#home-section" class="white-text"><span data-hover="home">home</span></a>
+        <a href="#public-section" class="white-text"><span data-hover="public">public</span></a>
+        <a href="#private-section" class="white-text"><span data-hover="private">private</span></a>
+        <a href="#about-section" class="white-text"><span data-hover="about us">about us</span></a>
+    </div>
+</header>
+<!--home section-->
+<div class="parallax-container">
+    <div class="container-filter">
+        <div id="home-section">
+            <div id="create-text-pos">
+                <div id="create-text-card">
+                    <div id="create-text-content-pos">
+                        <div id="create-a">
+                            Create a
+                        </div>
+                        <div id="room">
+                            [ room ]
+                        </div>
+                        <div id="private-or-public">
+                            as private or public
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="create-card-pos">
+                <div id="create-room-card">
+                    <div id="create-room-card-header">
+                        <i class="mdi mdi-message-video" id="msg-vid-icon-filter"></i>
+                        <div>
+                            <a href="" id="create-room-card-title" class="white-text">caps.io/test</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <form class="col s12 offset-s1" id="form-filter" action="#">
+                            <div class="row">
+                                <div class="input-field col s10">
+                                    <input id="username" type="text" class="validate"/>
+                                    <label for="username">[username]</label>
+                                </div>
+                                <div class="input-field col s10">
+                                    <input id="room_name" type="text" class="validate"/>
+                                    <label for="room_name">[room name]</label>
+                                </div>
+                                <div id="room-radio">
+                                    <span id="room-radio-public">
+                                        <input name="home" class="with-gap" type="radio" value="public" checked/>
+                                        <label for="public">public</label>
+                                   </span>
+                                    <span id="room-radio-private">
+                                        <input name="home" class="with-gap" type="radio" value="private"/>
+                                        <label for="private">private</label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div id="room-create">
+                                <a class="waves-effect waves-light blue-grey btn" id="create-room">create</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="down-arrow-pos">
+        <a href="#public-section"><i class="mdi mdi-chevron-down" id="down-arrow"></i></a>
+    </div>
+    <div class="parallax"><img src="img/cover.png"></div>
+</div>
+
+<!--public section-->
+<div id="public-section" class="section">
+    <div class="section-title" id="public-section-title">public</div>
+    <i class="mdi mdi-lock-open section-ico"></i>
+    <div class="container-filter">
+        <div id="public-content">
+            <div id="public-list-header">
+                live rooms list
+            </div>
+            <div id="public-list-card">
+                <div id="public-list-card-header" class="indigo-text row col l12">
+                    <div id="public-room-title" class="col l6">
+                        <span>room name</span>
+                    </div>
+                    <div id="public-room-creator" class="col l6">
+                        room creator
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div id="public-list-card-content">
+                    <div class="public-content-scope col l12 row">
+                        <div class="public-room-title col l6">
+                            <i class="mdi mdi-message-video grey white-text"></i>
+                            <span>eng-discussion</span>
+                        </div>
+                        <div class="public-room-creator col l6">
+                            <span>Moe Kyaw</span>
+                            <a data-target="modal1" class="modal-trigger waves-effect waves-light btn-flat">join</a>
+                        </div>
+                    </div>
+                    <div class="public-content-scope col l12 row">
+                        <div class="public-room-title col l6">
+                            <i class="mdi mdi-message-video grey white-text"></i>
+                            <span>eng-discussion</span>
+                        </div>
+                        <div class="public-room-creator col l6">
+                            <span>Yan Naing Lin</span>
+                            <a href="" class="waves-effect btn-flat waves-light">join</a>
+                        </div>
+                    </div>
+                    <div class="public-content-scope col l12 row">
+                        <div class="public-room-title col l6">
+                            <i class="mdi mdi-message-video grey white-text"></i>
+                            <span>eng-discussion</span>
+                        </div>
+                        <div class="public-room-creator col l6">
+                            <span>Yan Naing Lin</span>
+                            <a href="" class="waves-effect waves-light btn-flat">join</a>
+                        </div>
+                    </div>
+                    <div class="public-content-scope col l12 row">
+                        <div class="public-room-title col l6">
+                            <i class="mdi mdi-message-video grey white-text"></i>
+                            <span>eng-discussion</span>
+                        </div>
+                        <div class="public-room-creator col l6">
+                            <span>Yan Naing Lin</span>
+                            <a href="" class="waves-effect waves-light btn-flat">join</a>
+                        </div>
+                    </div>
+                    <div class="public-content-scope col l12 row">
+                        <div class="public-room-title col l6">
+                            <i class="mdi mdi-message-video grey white-text"></i>
+                            <span>eng-discussion</span>
+                        </div>
+                        <div class="public-room-creator col l6">
+                            <span>Yan Naing Lin</span>
+                            <a href="" class="waves-effect waves-light btn-flat">join</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="public-list-card-footer">
+                    <div class="divider"></div>
+                    <div id="public-list-footer" class="col l12">
+                        <a class="waves-effect right blue-grey-text btn-flat"><i class="mdi mdi-more"></i> load more</a>
+                    </div>
+                </div>
+                <!--<div id="public-list-empty">-->
+                <!--Oops! room list is empty-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--public join modal-->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>eng-discussion</span>
+        </div>
+        <div class="input-field col s10 offset-s1">
+            <input id="public_username" type="text" class="validate"/>
+            <label for="public_username">[username]</label>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="entire.html" class="modal-action waves-effect waves-green btn-flat">start</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">cancel</a>
+    </div>
+</div>
+
+<!--private section-->
+<div id="private-section" class="parallax-container">
+    <div class="section-title white-text">private</div>
+    <i class="mdi mdi-lock section-ico white-text"></i>
+    <div class="container-filter">
+        <div id="private-content" class="row">
+            <div class="private-join-card col l5 white grey-text text-darken-3" id="private-join-card">
+                <div id="private-join-card-header">
+                    <i class="mdi mdi-link" id="private-join-ico-filter"></i>
+                </div>
+                <div class="row" id="private-form">
+                    <form action="" class="col s12 offset-s1">
+                        <div class="input-field col s10">
+                            <input id="private_username" type="text" class="validate"/>
+                            <label for="private_username">[username]</label>
+                        </div>
+                        <div class="input-field col s10">
+                            <input id="private_room_name" type="text" class="validate"/>
+                            <label for="private_room_name">[room name]</label>
+                        </div>
+                        <a href="" class="waves-effect waves-light blue-grey btn" id="private-join-btn">start</a>
+                    </form>
+                </div>
+            </div>
+            <div class="col l1"></div>
+            <div class="private-join-card col l6 white-text">
+                <div id="private-join-text">
+                    <div id="join-a">
+                        Join a
+                    </div>
+                    <div id="join-private">
+                        [ private ]
+                    </div>
+                    <div id="join-room">
+                        room
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="img/forest-patrol-flat-wallpaper-background.png"></div>
+</div>
+
+<!--about us -->
+<div class="section white" id="about-section">
+    <div class="section-title">about us</div>
+    <i class="mdi mdi-account-multiple section-ico"></i>
+    <div class="row ">
+        <div class="container-filter">
+            <div class="col l4 person-card">
+                <div class="avatar-img">
+                    <img src="img/avatar-release.png" class="avatar-cycle" alt="">
+                </div>
+                <div class="person-divider"></div>
+                <div class="person-info">
+                    <div class="person-name">[ Sai Aung Pyae ]</div>
+                    <div class="person-roll">4cs(hpc) - 8</div>
+                </div>
+            </div>
+            <div class="col l4 person-card">
+                <div class="avatar-img">
+                    <img src="img/avatar-release.png" class="avatar-cycle" alt="">
+                </div>
+                <div class="person-divider"></div>
+                <div class="person-info">
+                    <div class="person-name">[ moe kyaw ]</div>
+                    <div class="person-roll">4cs(hpc) - 6</div>
+                </div>
+            </div>
+            <div class="col l4 person-card">
+                <div class="avatar-img">
+                    <img src="img/avatar-release.png" class="avatar-cycle" alt="">
+                </div>
+                <div class="person-divider"></div>
+                <div class="person-info">
+                    <div class="person-name">[ yan naing lin ]</div>
+                    <div class="person-roll">4cs(hpc) - 9</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<footer>
+    <div class="container-filter">
+        <span id="develop-by">proudly develop by team 3</span>
+        <span id="footer-brand" class="room-effect"><a href="#home-section" class="white-text">caps.io</a></span>
+    </div>
+</footer>
+
+<script src="/javascripts/rmc3.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script type="text/javascript">
+
+    document.getElementById('create-room').onclick = function () {
+
+        var roomId = document.getElementById('room_name').value;
+        var user_name = document.getElementById('username').value;
+        var type = document.getElementById('room-radio').value;
+        console.log(type);
+        connection.checkPresence(roomId, function(isAdminOnline) {
+            if(isAdminOnline) {
+                window.alert('This room is already created ! Try another room name. ');
+                document.getElementById('room_name').value = '';
+                document.getElementById('room_name').focus();
+                return
+            }
+            window.location = '/getroomdata/' + roomId + '/' + user_name + '/' + type;
+        });
+    }
+
+    document.getElementById('join-private-room').onclick = function () {
+        var roomId = document.getElementById('pr-room-id').value;
+        var user_name = document.getElementById('pr-user-id').value;
+        var type = "none";
+        connection.checkPresence(roomId, function(isAdminOnline) {
+            if(!isAdminOnline) {
+                window.alert('This room is offline. Try another room');
+                document.getElementById('pr-room-id').value = '';
+                document.getElementById('pr-room-id').focus();
+                return
+            }
+            window.location = '/getroomdata/' + roomId + '/' + user_name + '/' + type;
+        });
+    }
+
+    //    document.getElementById('become-public-moderator').onclick = function() {
+    //      this.disabled = true;
+    //
+    //      connection.becomePublicModerator();
+    //    };
+
+    var connection = new RTCMultiConnection();
+
+    connection.socketURL = '/';
+
+    var publicRoomsDiv = document.getElementById('public-rooms');
+    (function looper() {
+        connection.getPublicModerators(function(array) {
+            publicRoomsDiv.innerHTML = '';
+            array.forEach(function(moderator) {
+                var li = document.createElement('li');
+                li.innerHTML = '<b>' + moderator.userid +  '</b>&nbsp;&nbsp;';
+
+                var button = document.createElement('button');
+                button.id = moderator.userid;
+                button.onclick = function() {
+                    if (!window.username) window.username = prompt('Please enter your username') || 'Anonymous';
+
+                    window.location = '/getroomdata/' + moderator.userid + '/' + window.username + '/broad';
+                };
+                button.innerHTML = 'Join this room';
+                li.appendChild(button);
+
+                if(moderator.userid == connection.sessionid) {
+                    button.disabled = true;
+                }
+
+                publicRoomsDiv.insertBefore(li, publicRoomsDiv.firstChild);
+            });
+            setTimeout(looper, 3000);
+        });
+    })();
+
+</script>
+<script type="text/javascript" src="/javascripts/jquery-2.1.1-min.js"></script>
+<script type="text/javascript" src="/javascripts/materialize.min.js"></script>
+<script type="text/javascript" src="/javascripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.webrtc-experiment.com/style.css">
+
+    <title>Audio+Video+TextChat+FileSharing using RTCMultiConnection</title>
+
+    <meta name="description" content="Share audio, video along with text chat and filesharing using RTCMultiConnection" />
+    <meta name="keywords" content="WebRTC,RTCMultiConnection,Demos,Experiments,Samples,Examples" />
+
+    <style>
+        video {
+            object-fit: fill;
+            width: 30%;
+        }
+        button,
+        input,
+        select {
+            font-weight: normal;
+            padding: 2px 4px;
+            text-decoration: none;
+            display: inline-block;
+            text-shadow: none;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .make-center {
+            text-align: center;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+
+<body>
+<article>
+
+    <div class="github-stargazers"></div>
+
+    <section class="experiment">
+        <div class="make-center">
+            <input type="text" id="room-id" value="abcdef">
+            <button id="open-room">Open Room</button>
+            <button id="join-room">Join Room</button>
+            <button id="open-or-join-room">Auto Open Or Join Room</button>
+
+            <br><br>
+            <input type="text" id="input-text-chat" placeholder="Enter Text Chat">
+            <button id="share-file" disabled>Share File</button>
+            <br><br>
+            <button id="btn-leave-room" disabled>Leave /or close the room</button>
+
+            <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
+        </div>
+
+        <div id="chat-container">
+            <div id="file-container"></div>
+            <div class="chat-output"></div>
+        </div>
+
+        <div id="videos-container"></div>
+    </section>
+
+    </article>
+
+    <script type="text/javascript" src="/javascripts/jquery-2.1.1-min.js"></script>
+    <script type="text/javascript" src="/javascripts/materialize.min.js"></script>
+    <script type="text/javascript" src="/javascripts/main.js"></script>
+    <script src="/javascripts/rmc3.min.js"></script>
+
+    <script src="https://cdn.webrtc-experiment.com/getMediaElement.js"></script>
+
+    <script src="/javascripts/rmc3.fbr.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+
+        var connection = new RTCMultiConnection();
+
+        connection.socketURL = '/';
+
+
+        connection.session = {
+            audio: true,
+            video: true,
+            data: true
+        };
+
+
+        document.getElementById('open-room').onclick = function() {
+            connection.open(document.getElementById('room-id').value);
+        };
+
+        document.getElementById('join-room').onclick = function() {
+            connection.join(document.getElementById('room-id').value);
+        };
+
+        document.getElementById('btn-leave-room').onclick = function() {
+            this.disabled = true;
+
+            if(connection.isInitiator) {
+                // use this method if you did NOT set "autoCloseEntireSession===true"
+                // for more info: https://github.com/muaz-khan/RTCMultiConnection#closeentiresession
+                connection.closeEntireSession(function() {
+                    document.querySelector('h1').innerHTML = 'Entire session has been closed.';
+                });
+            }
+            else {
+                connection.leave();
+            }
+        };
+
+
+
+        document.getElementById('input-text-chat').onkeyup = function(e) {
+            if (e.keyCode != 13) return;
+
+            // removing trailing/leading whitespace
+            this.value = this.value.replace(/^\s+|\s+$/g, '');
+            if (!this.value.length) return;
+
+            connection.send({
+                msg : this.value
+            });
+            appendDIV(this.value);
+            this.value = '';
+        };
+
+        var chatContainer = document.querySelector('.chat-output');
+
+        function appendDIV(event) {
+            var div = document.createElement('div');
+            if(event.data == null){
+                div.innerHTML = event;
+            }
+            else{
+                div.innerHTML = event.data.msg;
+            }
+            chatContainer.insertBefore(div, chatContainer.firstChild);
+            div.tabIndex = 0;
+            div.focus();
+
+            document.getElementById('input-text-chat').focus();
+        }
+
+        connection.onmessage = appendDIV;
+        connection.videosContainer = document.getElementById('videos-container');
+        connection.onstream = function(event) {
+            var width = parseInt(connection.videosContainer.clientWidth / 2) - 20;
+            var mediaElement = getMediaElement(event.mediaElement, {
+                title: event.userid,
+                buttons: ['full-screen'],
+                width: width,
+                showOnMouseEnter: false
+            });
+
+            connection.videosContainer.appendChild(mediaElement);
+
+            setTimeout(function() {
+                mediaElement.media.play();
+            }, 5000);
+
+            mediaElement.id = event.streamid;
+        };
+
+        connection.onstreamended = function(event) {
+            var mediaElement = document.getElementById(event.streamid);
+            if(mediaElement) {
+                mediaElement.parentNode.removeChild(mediaElement);
+            }
+        };
+
+    </script>
+
+</body>
+
+</html>

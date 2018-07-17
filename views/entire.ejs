@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>caps.io</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <style>
+        body {
+            background-color: #F2F2F2;
+        }
+        .lean-overlay {
+            background: none;
+        }
+    </style>
+</head>
+<body>
+<input type="checkbox" id="toggle-box">
+<!--navigation-->
+<nav>
+    <div class="nav-wrapper">
+        <label for="toggle-box">
+            <a id="nav-toggle"><span></span></a>
+        </label>
+        <a href="#" id="entire-brand-logo"><%=roomid%></a>
+        <ul class="right">
+            <li>
+                <div class="switch" id="switch" style="opacity: 0;">
+                    <label>
+                        <div id="lock">
+                            <i class="mdi mdi-lock-open"></i>
+                            <i class="mdi mdi-lock"></i>
+                        </div>
+                        <input type="checkbox" id="lockCheck">
+                        <span class="lever"></span>
+                    </label>
+                </div>
+            </li>
+            <li>
+                <a href="index.html" id="leave"><img src="/img/leave-door.png" alt="leave-door" id="leave-img">Leave</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--off canvas-->
+<div id="offcanvas-menu">
+    <span id="participant">
+        <p id="participant-filter"><i class="mdi mdi-tag-multiple"></i> Participants</p>
+    </span>
+    <div class="person-list" id="person-list">
+
+    </div>
+</div>
+
+<div id="entire-main">
+    <div id="video-entire" class="row">
+
+    </div>
+</div>
+
+<!--message button-->
+<div id="message-alert">
+    <a data-target="ToChat" id="message-box" class="modal-trigger btn-floating waves-effect waves-light btn-large blue-grey"><i
+                class="mdi mdi-message-text"></i></a>
+    <span id="message-count" style="display: none"></span>
+</div>
+
+<!--chat modal-->
+<div id="message-wrapper">
+    <div id="ToChat" class="modal bottom-sheet">
+        <div class="modal-content">
+            <div id="chat-header">
+                <i class="mdi mdi-close modal-action modal-close"></i>
+            </div>
+            <div id="chat-inner">
+                <div id="chat-content">
+
+                </div>
+            </div>
+            <div id="chat-footer">
+                <textarea id="chat-text"></textarea>
+                <i id="message-send" class="mdi mdi-send"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--javascript-->
+<script type="text/javascript" src="/javascripts/jquery-2.1.1-min.js"></script>
+<script type="text/javascript" src="/javascripts/materialize.min.js"></script>
+<script type="text/javascript" src="/javascripts/main.js"></script>
+<script src="/javascripts/rmc3.min.js"></script>
+<script src="/javascripts/rmc3.fbr.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+
+    var message_count = 0;
+    var check_modal = 0;
+
+    function onloadpage() {
+        $('.modal-trigger').leanModal({
+            ready: function() {
+                check_modal = 1;
+                document.getElementById('chat-text').focus();
+            },
+            complete: function () {
+                check_modal = 0;
+            }
+        });
+        var roomid = "<%=roomid%>";
+        var userid = "<%=userid%>";
+        connection.extra = {
+            username: userid
+        };
+        var type = "<%=type%>";
+        if(type=="broad")
+        {
+            document.getElementById('chat-footer').style.opacity = "0";
+            connection.checkPresence(roomid, function(isRoomExists) {
+                if(isRoomExists) {
+                    connection.sdpConstraints.mandatory = {
+                        OfferToReceiveAudio: true,
+                        OfferToReceiveVideo: true
+                    };
+                    connection.session = {
+                        audio: true,
+                        video: true,
+                        data: true,
+                        oneway: true
+                    };
+                    connection.join(roomid);
+                    return;
+                }
+            });
+        }
+        else if(type=="public")
+        {
+            document.getElementById('switch').style.opacity = "1";
+            var isPublicModerator = true;
+            connection.open(roomid,isPublicModerator);
+        }
+        else if(type=="private")
+        {
+            var isPublicModerator = false;
+            connection.open(roomid,isPublicModerator);
+        }
+        else if(type=="speaker")
+        {
+            connection.session = {
+                audio: true,
+                video: true,
+                data: true,
+                oneway: false
+            };
+            connection.join("<%=roomid%>");
+        }
+
+    }
+
+    document.getElementById('message-box').onclick = function () {
+        message_count = 0;
+        document.getElementById('message-count').style = "display: none;";
+    }
+
+    var connection = new RTCMultiConnection();
+
+    connection.socketURL = '/';
+
+    connection.session = {
+        audio: true,
+        video: true,
+        data: true
+    };
+
+    window.onload = onloadpage();
+
+
+    document.getElementById('chat-text').onkeyup = function(e) {
+        if (e.keyCode != 13) return;
+
+        this.value = this.value.replace(/^\s+|\s+$/g, '');
+
+        if (!this.value.length) return;
+
+        connection.send({
+            msg : this.value
+        });
+        appendDIV(this.value);
+        this.value = '';
+    };
+
+    document.getElementById('message-send').onclick = function () {
+        var message_text = document.getElementById('chat-text').value;
+        message_text = message_text.replace(/^\s+|\s+$/g, '');
+        if(!message_text.length) return;
+
+        connection.send({
+            msg : message_text
+        });
+        appendDIV(message_text);
+        document.getElementById('chat-text').value = '';
+    }
+
+    var check_lock_point = true;
+    document.getElementById('lockCheck').onclick = function () {
+        var userid = "<%=userid%>";
+        if(check_lock_point)
+        {
+            check_lock_point = false;
+
+            connection.extra = {
+                username: userid,
+                lock: true
+            };
+            connection.updateExtraData();
+        }
+        else{
+            check_lock_point = true;
+
+            connection.extra = {
+                username: userid,
+                lock: false
+            };
+            connection.updateExtraData();
+        }
+
+    }
+
+    var chatContainer = document.getElementById('chat-content');
+
+    function appendDIV(event) {
+
+        var div = document.createElement('div');
+        if(event.data == null){
+			div.className = 'msg-wrap me';
+            div.innerHTML = "<i class='mdi mdi-account'></i><span>" +event + "</span>";
+        }
+        else{
+            if(!check_modal)
+            {
+                message_count++;
+                document.getElementById('message-count').innerHTML = message_count;
+                document.getElementById('message-count').style = "display: block;";
+            }
+
+            div.className = 'msg-wrap them';
+            div.innerHTML = "<div>" + event.extra.username + "</div><i class='mdi mdi-account'></i><span>" + event.data.msg + "</span>";
+        }
+
+        chatContainer.insertBefore(div, chatContainer.lastChild);
+        div.tabIndex = 0;
+        $("#chat-inner").animate({ scrollTop: document.getElementById('chat-inner').scrollHeight });
+        document.getElementById('chat-text').focus();
+    }
+
+    connection.onstream = function(stream) {
+
+        var video_entire = document.getElementById('video-entire');
+        var video_style = document.createElement('div');
+        video_style.className = 'col 16 m6 s12';
+        var person_list = document.getElementById('person-list');
+        var username = "<%=userid%>";
+        var roomname = "<%=roomid%>";
+
+        if (stream.type === 'local') {
+            var video = getVideo(stream, {
+                username: "<%=userid%>"
+            });
+            var person = document.createElement('div');
+            person.className = "person-list-scope";
+            person.id = connection.userid;
+
+            if(connection.userid == roomname)
+                person.innerHTML = "<span class='person-list-ico'><i class='mdi mdi-account' id='admin'></i></span>";
+            else
+                person.innerHTML = "<span class='person-list-ico'><i class='mdi mdi-account'></i></span>";
+            person.innerHTML += "<span class='person-list-name text-truncate'><a>"+ username +"</a></span>";
+            person_list.insertBefore(person, person_list.firstChild);
+            video_style.insertBefore(video, video_style.firstChild);
+            video_entire.insertBefore(video_style, video_entire.firstChild);
+        }
+        if (stream.type === 'remote') {
+
+            var person = document.createElement('div');
+            person.id = stream.userid;
+            person.className = "person-list-scope";
+
+            if(stream.userid == roomname)
+            {
+                person.innerHTML = "<span class='person-list-ico'><i class='mdi mdi-account' id='admin'></i></span>";
+            }
+            else{
+                person.innerHTML = "<span class='person-list-ico'><i class='mdi mdi-account'></i></span>";
+            }
+            person.innerHTML += "<span class='person-list-name text-truncate'><a>"+ stream.extra.username +"</a>";
+
+            if(connection.isInitiator)
+            {
+                var removebtn = document.createElement('i');
+                removebtn.className = "mdi mdi-close person-list-remove";
+                removebtn.id = "remove_" + stream.userid;
+                removebtn.onclick = function () {
+                    connection.send({
+                        removeid : stream.userid
+                    });
+                }
+                person.appendChild(removebtn);
+            }
+            person_list.insertBefore(person, person_list.lastChild);
+            var video = getVideo(stream, stream.extra);
+            video_style.insertBefore(video, video_style.lastChild);
+            video_entire.insertBefore(video_style, video_entire.lastChild);
+        }
+        stream.mediaElement.height = 310;
+    };
+    connection.onmessage = function (event) {
+        if(event.data.msg != null)
+            appendDIV(event);
+        if(event.data.removeid !=null && event.data.removeid == connection.userid)
+            window.location = '/';
+    };
+    connection.onstreamended = function(e) {
+        var room_creator = "<%=roomid%>";
+        if(e.userid==room_creator){
+            window.location = '/';
+        }
+        else{
+            if (e.mediaElement && e.mediaElement.parentNode && e.mediaElement.parentNode.parentNode) {
+                e.mediaElement.parentNode.parentNode.removeChild(e.mediaElement.parentNode);
+            }
+            document.getElementById('person-list').removeChild(document.getElementById(e.userid));
+        }
+    };
+    function getVideo(stream, extra) {
+        var div = document.createElement('div');
+        div.id = stream.userid || 'self';
+        stream.mediaElement.controls = false;
+        div.appendChild(stream.mediaElement);
+        return div;
+    }
+</script>
+</body>
+</html>

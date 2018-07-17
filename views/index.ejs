@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>caps.io</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/materialize.min.css">
+  <link rel="stylesheet" href="css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+<!--navigation-->
+<div id="lockCheck" style="display: none;"></div>
+<header class="nav-filter-down">
+  <div id="brand-logo" class="room-effect"><a href="#home-section" class="white-text">caps.io</a></div>
+  <div id="nav-content">
+    <a href="#home-section" class="white-text"><span data-hover="home">home</span></a>
+    <a href="#public-section" class="white-text"><span data-hover="public">public</span></a>
+    <a href="#private-section" class="white-text"><span data-hover="private">private</span></a>
+    <a href="#about-section" class="white-text"><span data-hover="about us">about us</span></a>
+    <a id="nav-toggle" style="display: none"></a>
+  </div>
+</header>
+<!--home section-->
+<div class="parallax-container">
+  <div class="container-filter">
+    <div id="home-section">
+      <div id="create-text-pos">
+        <div id="create-text-card">
+          <div id="create-text-content-pos">
+            <div id="create-a">
+              Create a
+            </div>
+            <div id="room">
+              [ room ]
+            </div>
+            <div id="private-or-public">
+              as private or public
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="create-card-pos">
+        <div id="create-room-card">
+          <div id="create-room-card-header">
+            <i class="mdi mdi-message-video" id="msg-vid-icon-filter"></i>
+            <div>
+              <a href="/" id="create-room-card-title" class="white-text"></a>
+            </div>
+          </div>
+          <div class="row">
+            <form class="col s12 offset-s1" id="form-filter" action="#">
+              <div class="row">
+                <div class="input-field col s10">
+                  <input id="username" type="text" class="validate"/>
+                  <label for="username">[username]</label>
+                </div>
+                <div class="input-field col s10">
+                  <input id="room_name" type="text" class="validate"/>
+                  <label for="room_name">[room name]</label>
+                </div>
+                <div id="room-radio">
+                                    <span id="room-radio-public">
+                                        <input name="home" class="with-gap" type="radio" value="public" id="public-room-radio" checked/>
+                                        <label for="public-room-radio">public</label>
+                                   </span>
+                                    <span id="room-radio-private">
+                                        <input name="home" class="with-gap" type="radio" value="private" id="private-room-radio"/>
+                                        <label for="private-room-radio">private</label>
+                                    </span>
+                </div>
+              </div>
+              <div id="room-create">
+                <a class="waves-effect waves-light blue-grey btn" id="create-room">create</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="down-arrow-pos">
+    <a href="#public-section"><i class="mdi mdi-chevron-down" id="down-arrow"></i></a>
+  </div>
+  <div class="parallax"><img src="img/cover.png"></div>
+</div>
+
+<!--public section-->
+<div id="public-section" class="section">
+  <div class="section-title" id="public-section-title">public</div>
+  <i class="mdi mdi-lock-open section-ico"></i>
+  <div class="container-filter">
+    <div id="public-content">
+      <div id="public-list-header">
+        live rooms list
+      </div>
+      <div id="public-list-card">
+        <div id="public-list-card-header" class="indigo-text row col l12">
+          <div id="public-room-title" class="col l6">
+            <span>room name</span>
+          </div>
+          <div id="public-room-creator" class="col l6">
+            room creator
+            <i class="mdi mdi-refresh" id="refresh-room-list"></i>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div id="public-list-card-content">
+
+        </div>
+        <div id="public-list-card-footer">
+
+        </div>
+        <div id="public-list-empty">
+        Oops! room list is empty
+        </div>
+      </div>  <!--list content-->
+      <div id="modal-list">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--private section-->
+<div id="private-section" class="parallax-container">
+  <div class="section-title white-text">private</div>
+  <i class="mdi mdi-lock section-ico white-text"></i>
+  <div class="container-filter">
+    <div id="private-content" class="row">
+      <div class="private-join-card col l5 white grey-text text-darken-3" id="private-join-card">
+        <div id="private-join-card-header">
+          <i class="mdi mdi-link" id="private-join-ico-filter"></i>
+        </div>
+        <div class="row" id="private-form">
+          <form action="" class="col s12 offset-s1">
+            <div class="input-field col s10">
+              <input id="private_username" type="text" class="validate"/>
+              <label for="private_username">[username]</label>
+            </div>
+            <div class="input-field col s10">
+              <input id="private_room_name" type="text" class="validate"/>
+              <label for="private_room_name">[room name]</label>
+            </div>
+            <a class="waves-effect waves-light blue-grey btn" id="private-join-btn">start</a>
+          </form>
+        </div>
+      </div>
+      <div class="col l1"></div>
+      <div class="private-join-card col l6 white-text">
+        <div id="private-join-text">
+          <div id="join-a">
+            Join a
+          </div>
+          <div id="join-private">
+            [ private ]
+          </div>
+          <div id="join-room">
+            room
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="parallax"><img src="img/forest-patrol-flat-wallpaper-background.png"></div>
+</div>
+
+<!--about us -->
+<div class="section white" id="about-section">
+  <div class="section-title">about us</div>
+  <i class="mdi mdi-account-multiple section-ico"></i>
+  <div class="row ">
+    <div class="container-filter">
+      <div class="col l4 person-card">
+        <div class="avatar-img">
+          <img src="img/avatar-3.png" class="avatar-cycle" alt="">
+        </div>
+        <div class="person-divider"></div>
+        <div class="person-info">
+          <div class="person-name">[ Sai Aung Pyae ]</div>
+          <div class="person-roll">4cs(hpc) - 8</div>
+        </div>
+      </div>
+      <div class="col l4 person-card">
+        <div class="avatar-img">
+          <img src="img/avatar-release.png" class="avatar-cycle" alt="">
+        </div>
+        <div class="person-divider"></div>
+        <div class="person-info">
+          <div class="person-name">[ moe kyaw ]</div>
+          <div class="person-roll">4cs(hpc) - 6</div>
+        </div>
+      </div>
+      <div class="col l4 person-card">
+        <div class="avatar-img">
+          <img src="img/avatar-3.png" class="avatar-cycle" alt="">
+        </div>
+        <div class="person-divider"></div>
+        <div class="person-info">
+          <div class="person-name">[ yan naing lin ]</div>
+          <div class="person-roll">4cs(hpc) - 9</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--footer-->
+<footer>
+  <div class="container-filter">
+    <span id="develop-by">proudly develop by team 3</span>
+    <span id="footer-brand" class="room-effect"><a href="#home-section" class="white-text">caps.io</a></span>
+  </div>
+</footer>
+
+<script type="text/javascript" src="/javascripts/jquery-2.1.1-min.js"></script>
+<script type="text/javascript" src="/javascripts/materialize.min.js"></script>
+<script type="text/javascript" src="/javascripts/main.js"></script>
+<script src="/javascripts/rmc3.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+  var connection = new RTCMultiConnection();
+  connection.socketURL = '/';
+  document.getElementById('create-room').onclick = function () {
+    var roomId = document.getElementById('room_name').value.replace(/\s\s+/g, ' ').trim();
+    var user_name = document.getElementById('username').value.replace(/\s\s+/g, ' ').trim();
+    if(roomId.length >1 && user_name.length > 1) {
+      var type = $('input[name=home]:checked').val();
+      connection.checkPresence(roomId, function (isAdminOnline) {
+        if (isAdminOnline) {
+          window.alert('This room is already created ! Try another room name. ');
+          document.getElementById('room_name').value = '';
+          document.getElementById('room_name').focus();
+          return
+        }
+        window.location = '/getroomdata/' + roomId + '/' + user_name + '/' + type;
+      });
+    }
+    else{
+      alert('Invalid username or roomname! ');
+    }
+  }
+  document.getElementById('private-join-btn').onclick = function () {
+    var private_username = document.getElementById('private_username').value.replace(/\s\s+/g, ' ').trim();
+    var private_room_name = document.getElementById('private_room_name').value.replace(/\s\s+/g, ' ').trim();
+    if(private_room_name.length !=0 && private_username.length !=0){
+      connection.checkPresence(private_room_name, function (isAdminOnline) {
+        if (!isAdminOnline) {
+          window.alert('This room does not exist. ');
+          private_room_name = '';
+          private_username = '';
+          document.getElementById('private_username').focus();
+          return
+        }
+        window.location = '/getroomdata/' + private_room_name + '/' + private_username + '/speaker';
+      });
+    }
+    else{
+      alert('Invalid username or roomname!');
+    }
+  };
+  document.getElementById('refresh-room-list').onclick = function () {
+    get_room_list();
+  };
+  function get_room_list() {
+
+    var publicRoomsDiv = document.getElementById('public-list-card-content');
+    var public_list_card_content = document.getElementById('public-list-card-content');
+    var modal_list = document.getElementById('modal-list');
+    var public_footer = document.getElementById('public-list-card-footer');
+    publicRoomsDiv.innerHTML = "";
+    connection.getPublicModerators(function(array) {
+      var count = 0;
+      var btn_array = [];
+      var username_array = [];
+      var mod_user_array = [];
+      var join_btn_array = [];
+      if(array.length==0)
+        document.getElementById('public-list-empty').style = "opacity: 1;";
+      else
+        document.getElementById('public-list-empty').style = "opacity: 0;";
+      array.forEach(function(moderator) {
+        if(count > 4)
+        {
+          public_footer.innerHTML = "<div class='divider'></div> " +
+                  "<div id='public-list-footer' class='col l12'> " +
+                  "<a class='waves-effect right blue-grey-text btn-flat activator' href='loadmore'>" +
+                  "<i class='mdi mdi-more'></i> load more</a></div>";
+        }
+        else{
+          var mod_user_id = moderator.userid.replace(/ /g,"_");
+          var join_btn = "join_btn_" + mod_user_id;
+          mod_user_array = mod_user_array.concat([
+            mod_user_id
+          ]);
+          var start_btn_id = 'btn_id_' + moderator.userid;
+          btn_array = btn_array.concat([
+            start_btn_id
+          ]);
+          var input_username = "public_username_" + moderator.userid;
+          username_array = username_array.concat([
+            input_username
+          ]);
+          public_list_card_content.innerHTML += "<div class='public-content-scope col l12 row'>" +
+                  "<div class='public-room-title col l6'>" +
+                  "<i class='mdi mdi-message-video grey white-text'></i>" +
+                  "<span>"+ moderator.userid +"</span>" +
+                  "</div>" +
+                  "<div class='public-room-creator col l6'>" +
+                  "<span>"+ moderator.extra.username + "</span>" +
+                  "<a id='join_btn' data-target='"+ join_btn +"' class='modal-trigger waves-effect waves-light btn-flat'>Join</a>" +
+                  "</div>" +
+                  "</div>";
+          modal_list.innerHTML += "<div id='"+ join_btn +"' class='modal'>" +
+                  "  <!--public join modal--> " +
+                  "<div class='modal-content'> " +
+                  "<div class='modal-header'> " +
+                  "<span class='text-truncate col s10'>" + moderator.userid + "</span> " +
+                  "</div> " +
+                  "<div class='input-field'> " +
+                  "<input id='" + input_username + "' type='text' class='validate'> " +
+                  "<label for='public_username'>[username]</label> " +
+                  "</div> " +
+                  "<div class='modal-radio'> " +
+                  "<span> " +
+                  "<input name='" + mod_user_id + "' class='with-gap' type='radio' id='spectator_" + mod_user_id + "' value='broad' checked> " +
+                  "<label for='spectator_" + mod_user_id + "'>spectator</label> " +
+                  "</span> " +
+                  "<span id='check_lock_" + btn_array + "'> " +
+                  "<input name='" + mod_user_id + "' class='with-gap' type='radio' id='speaker_" + mod_user_id + "' value='speaker'> " +
+                  "<label for='speaker_" + mod_user_id + "'>speaker</label> " +
+                  "</span> " +
+                  "</div> " +
+                  "</div> " +
+                  "<div class='modal-footer'> " +
+                  "<a id='"+ start_btn_id +"'class='modal-action waves-effect waves-green btn-flat'>start</a> " +
+                  "<a href='#!' class='modal-action modal-close waves-effect waves-red btn-flat'>cancel</a> " +
+                  "</div> " +
+                  "</div>";
+          var spector_check = "spectator_" + mod_user_id;
+          document.getElementById(spector_check).check = true;
+          var check = "check_lock_" + btn_array;
+          if(moderator.extra.lock)
+              document.getElementById(check).style.visibility = "hidden";
+          else
+              document.getElementById(check).style.visibility = "visible";
+          if(count==array.length-1){
+            var i = 0;
+            array.forEach(function(moderator) {
+              var username = username_array[i];
+              var modname = mod_user_array[i];
+              var btn_id = btn_array[i];
+              document.getElementById(btn_id).onclick = function () {
+                var public_username = document.getElementById(username).value.replace(/\s\s+/g, ' ').trim();;
+                var type = $("input[name="+modname+"]:checked").val();
+                if(public_username.length>1 && type.length != 0) {
+                  window.location = '/getroomdata/' + moderator.userid + '/' + public_username + '/' + type;
+                }
+                else{
+                  alert('Invalid username!');
+                }
+              }
+              i++;
+            });
+          }
+          $('.modal-trigger').leanModal();
+        }
+        count++;
+      });
+
+    });
+  };
+  window.onload = get_room_list();
+</script>
+</body>
+</html>
